@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { NavLink, useLocation, useHistory } from 'react-router-dom';
 import { fetchSearchMovie } from '../../services/movie-api';
 
-export default function MoviesPage() {
+const MoviesPage = () => {
   const location = useLocation();
   const { search, pathname } = useLocation();
   const history = useHistory();
@@ -70,4 +70,6 @@ export default function MoviesPage() {
       </ul>
     </>
   );
-}
+};
+
+export default MoviesPage;

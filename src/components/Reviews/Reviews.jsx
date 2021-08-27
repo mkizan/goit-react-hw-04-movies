@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { fetchMovieReviews } from '../../services/movie-api';
 
-export default function Reviews({ movieId }) {
+const Reviews = ({ movieId }) => {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
@@ -24,4 +24,6 @@ export default function Reviews({ movieId }) {
       )}
     </>
   );
-}
+};
+
+export default Reviews;

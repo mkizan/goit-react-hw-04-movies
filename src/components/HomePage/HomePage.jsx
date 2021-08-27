@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import * as movieAPI from '../../services/movie-api';
 
-export default function HomePage() {
+const HomePage = () => {
   const location = useLocation();
   const [trendMovies, setTrendMovies] = useState([]);
 
@@ -28,4 +28,6 @@ export default function HomePage() {
       ))}
     </ul>
   );
-}
+};
+
+export default HomePage;

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { fetchMovieCast } from '../../services/movie-api';
 
-export default function Cast({ movieId }) {
+const Cast = ({ movieId }) => {
   const [cast, setCast] = useState([]);
 
   useEffect(() => {
@@ -32,4 +32,6 @@ export default function Cast({ movieId }) {
       )}
     </>
   );
-}
+};
+
+export default Cast;
