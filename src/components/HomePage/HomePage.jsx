@@ -4,7 +4,6 @@ import * as movieAPI from '../../services/movie-api';
 
 export default function HomePage() {
   const location = useLocation();
-  // console.log(location);
   const [trendMovies, setTrendMovies] = useState([]);
 
   useEffect(() => {

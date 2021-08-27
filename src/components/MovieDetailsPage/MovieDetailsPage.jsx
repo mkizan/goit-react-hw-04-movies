@@ -7,7 +7,6 @@ import {
   useHistory,
   useLocation,
 } from 'react-router-dom';
-// import * as movieAPI from '../../services/movie-api';
 import { fetchMoviesById } from '../../services/movie-api';
 import Cast from '../Cast/Cast';
 import Reviews from '../Reviews/Reviews';
@@ -15,17 +14,13 @@ import Reviews from '../Reviews/Reviews';
 export default function MovieDetailsPage() {
   const { movieId } = useParams();
   const { url } = useRouteMatch();
-  // console.log(url);
   const history = useHistory();
   const location = useLocation();
-  // console.log(location.state.from);
   const [movie, setMovie] = useState([]);
 
   useEffect(() => {
     fetchMoviesById(movieId).then(response => setMovie(response));
   }, [movieId]);
-
-  // console.log(movieId);
 
   const onGoBack = () => {
     history.push(location?.state?.from ?? '/');
@@ -35,41 +30,48 @@ export default function MovieDetailsPage() {
     <>
       {movie && (
         <>
-          {/* <img
-            src={`${url}${movie.backdrop_path}`}
-            alt={movie.title}
-            width="30"
-          /> */}
           <button type="button" onClick={onGoBack}>
             Go back
           </button>
+
+          <img
+            src={
+              movie.poster_path
+                ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
+                : 'not found image'
+            }
+            alt={movie.title}
+          />
+
           <p>{movie.title}</p>
           <p>{movie.overview}</p>
           <p>Film №{movieId}</p>
+
           <NavLink
             to={{
               pathname: `${url}/cast`,
-              state: {
-                from: '/',
-              },
+              state: { ...location.state },
             }}
           >
             Cast
           </NavLink>
+
           <NavLink
             to={{
               pathname: `${url}/reviews`,
-              state: {
-                from: '/',
-                // from: location,
-              },
+              // state: {
+              //   from: location,
+              // },
+              state: { ...location.state },
             }}
           >
             Reviews
           </NavLink>
+
           <Route path={`${url}/cast`}>
             <Cast movieId={movieId} />
           </Route>
+
           <Route path={`${url}/reviews`}>
             <Reviews movieId={movieId} />
           </Route>

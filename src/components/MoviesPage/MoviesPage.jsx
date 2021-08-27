@@ -4,30 +4,28 @@ import { fetchSearchMovie } from '../../services/movie-api';
 
 export default function MoviesPage() {
   const location = useLocation();
-  const { search } = useLocation();
+  const { search, pathname } = useLocation();
   const history = useHistory();
   const [searchQuery, setSearchQuery] = useState('');
   const [movie, setMovie] = useState([]);
 
   const queryValue = new URLSearchParams(search).get('query');
 
-  console.log(queryValue);
   useEffect(() => {
     if (search === '') {
       return;
     }
-    // if (!queryValue) {
-    //   return;
-    // }
-    fetchSearchMovie(queryValue).then(({ results }) => setMovie(results));
-    // .finally(setSearchQuery(''));
+
+    if (!queryValue) {
+      return;
+    }
+
+    fetchSearchMovie(queryValue)
+      .then(({ results }) => setMovie(results))
+      .finally(setSearchQuery(''));
     history.push({ search: `query=${queryValue}` });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [queryValue]);
-
-  // const pushHistory = query => {
-  //   history.push({ search: `query=${query}` });
-  // };
 
   const handleQueryChange = event => {
     setSearchQuery(event.target.value);
@@ -51,7 +49,7 @@ export default function MoviesPage() {
           onChange={handleQueryChange}
         />
 
-        <button type="button">
+        <button type="submit">
           <span>Search</span>
         </button>
       </form>
@@ -61,7 +59,7 @@ export default function MoviesPage() {
           <li key={id}>
             <NavLink
               to={{
-                pathname: `movies/${id}`,
+                pathname: `${pathname}/${id}`,
                 state: { from: location },
               }}
             >

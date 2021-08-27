@@ -8,8 +8,6 @@ export default function Reviews({ movieId }) {
     fetchMovieReviews(movieId).then(({ results }) => setReviews(results));
   }, [movieId]);
 
-  console.log(reviews);
-
   return (
     <>
       {reviews.length !== 0 ? (
