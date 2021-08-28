@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NavLink, useLocation, useHistory } from 'react-router-dom';
-import { fetchSearchMovie } from '../../services/movie-api';
+import fetchMovies from '../../services/movie-api';
 
 const MoviesPage = () => {
   const location = useLocation();
@@ -20,9 +20,11 @@ const MoviesPage = () => {
       return;
     }
 
-    fetchSearchMovie(queryValue)
-      .then(({ results }) => setMovie(results))
+    fetchMovies
+      .fetchSearchMovie(queryValue)
+      .then(results => setMovie(results))
       .finally(setSearchQuery(''));
+
     history.push({ search: `query=${queryValue}` });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [queryValue]);

@@ -1,21 +1,22 @@
 import { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import * as movieAPI from '../../services/movie-api';
+import fetchMovies from '../../services/movie-api';
+import s from './HomePage.module.scss';
 
 const HomePage = () => {
   const location = useLocation();
   const [trendMovies, setTrendMovies] = useState([]);
 
   useEffect(() => {
-    movieAPI
+    fetchMovies
       .fetchTrendingMoviesByDay()
-      .then(({ results }) => setTrendMovies(results));
+      .then(results => setTrendMovies(results));
   }, []);
 
   return (
-    <ul>
+    <ul className={s.list}>
       {trendMovies.map(({ id, title }) => (
-        <li key={id}>
+        <li className={s.list_item} key={id}>
           <NavLink
             to={{
               pathname: `movies/${id}`,

@@ -7,9 +7,8 @@ import {
   useHistory,
   useLocation,
 } from 'react-router-dom';
-import { fetchMoviesById } from '../../services/movie-api';
-// import Cast from '../Cast/Cast';
-// import Reviews from '../Reviews/Reviews';
+import fetchMovies from '../../services/movie-api';
+import s from './MovieDetailsPage.module.scss';
 
 const Cast = lazy(() => import('../Cast/Cast' /* webpackChunkName: 'Cast' */));
 const Reviews = lazy(() =>
@@ -24,7 +23,7 @@ const MovieDetailsPage = () => {
   const [movie, setMovie] = useState([]);
 
   useEffect(() => {
-    fetchMoviesById(movieId).then(response => setMovie(response));
+    fetchMovies.fetchMoviesById(movieId).then(response => setMovie(response));
   }, [movieId]);
 
   const onGoBack = () => {
@@ -35,28 +34,33 @@ const MovieDetailsPage = () => {
     <>
       {movie && (
         <>
-          <button type="button" onClick={onGoBack}>
+          <button type="button" className={s.goBack_btn} onClick={onGoBack}>
             Go back
           </button>
-
-          <img
-            src={
-              movie.poster_path
-                ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
-                : 'not found image'
-            }
-            alt={movie.title}
-          />
-
-          <p>{movie.title}</p>
-          <p>{movie.overview}</p>
-          <p>Film №{movieId}</p>
+          <div className={s.movie_details}>
+            <div className={s.movie_img}>
+              <img
+                src={
+                  movie.poster_path
+                    ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
+                    : 'not found image'
+                }
+                alt={movie.title}
+              />
+            </div>
+            <div className={s.movie_text}>
+              <p className={s.movie_title}>{movie.title}</p>
+              <p className={s.movie_description}>{movie.overview}</p>
+            </div>
+          </div>
 
           <NavLink
             to={{
               pathname: `${url}/cast`,
               state: { ...location.state },
             }}
+            className={s.nav_item}
+            activeClassName={s.activeNavLink}
           >
             Cast
           </NavLink>
@@ -64,11 +68,10 @@ const MovieDetailsPage = () => {
           <NavLink
             to={{
               pathname: `${url}/reviews`,
-              // state: {
-              //   from: location,
-              // },
               state: { ...location.state },
             }}
+            className={s.nav_item}
+            activeClassName={s.activeNavLink}
           >
             Reviews
           </NavLink>
